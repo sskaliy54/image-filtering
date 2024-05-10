@@ -1,0 +1,63 @@
+﻿<Window x:Class="STimg.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:STimg"
+        mc:Ignorable="d" Height="740" Width="1220" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Background= "Transparent" AllowsTransparency="True">
+
+
+    <Grid>
+        <!--Background-->
+        <Border 
+            Background="LightSlateGray"
+            CornerRadius="25"/>
+
+        <!--MainGrid-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="165"/>
+                <ColumnDefinition Width="610"/>
+                <ColumnDefinition Width="280"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="500"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+        </Grid>
+
+        <!--LeftWing-->
+        <Border Width="165"
+                Height="400" Margin="0,170,1055,170" >
+            <Image Source="/Images/rightWing.png"
+                   Width="165"
+                   Height="400" RenderTransformOrigin="0.5,0.5" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-0.133"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Border>
+
+        <!--RightWing-->
+        <Border Width="165"
+                Height="400" Margin="1055,170,0,170">
+            <Image Source="/Images/leftWing.png"
+                   Width="165"
+                   Height="400"   
+                   RenderTransformOrigin="0.064,0.498"/>
+        </Border>
+
+        <!--TopBar-->
+
+    </Grid>
+</Window>
