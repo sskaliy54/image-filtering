@@ -1,18 +1,49 @@
-﻿<Window x:Class="STimg.View.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:STimg"
-        mc:Ignorable="d" Height="740" Width="1220" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Background= "Transparent" AllowsTransparency="True">
-
-
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:local="clr-namespace:STimg" 
+        x:Class="STimg.View.MainWindow"
+        mc:Ignorable="d" 
+        Height="740" Width="1220" 
+        MinWidth="428" 
+        ResizeMode="CanResizeWithGrip" 
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" 
+        Background="Transparent" 
+        AllowsTransparency="True">
     <Grid>
         <!--Background-->
-        <Border 
-            Background="LightSlateGray"
-            CornerRadius="25"/>
-
+        <Border CornerRadius="25 25 0 25">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#eedcfa" Offset="0.25"/>
+                    <GradientStop Color="#bec4eb" Offset="0.75"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <!--TopBar-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!--Logo-->
+                <Canvas Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Image Source="/Images/logo.png" Width="118" Height="98" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="-53"/>
+                </Canvas>
+                <!-- Buttons-->
+                <Canvas Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Button x:Name="btnHelp" Style="{StaticResource HoverButtonStyle}" Background="Transparent" BorderThickness="0" Content="H E L P" Foreground="#8c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Canvas.Left="100" Canvas.Top="35"/>
+                    <Button x:Name="btnEdit" Style="{StaticResource HoverButtonStyle}" Background="Transparent" BorderThickness="0" Content="E D I T" Foreground="#8c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Canvas.Left="350" Canvas.Top="35"/>
+                </Canvas>
+                <Canvas Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Button x:Name="btnSamples" Style="{StaticResource HoverButtonStyle}" Background="Transparent" BorderThickness="0" Content="S A M P L E S" Foreground="#8c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Canvas.Right="290" Canvas.Top="35"/>
+                    <Button x:Name="btnMinimize" Style="{StaticResource RoundButtonTemplate}" Width="45" Height="45" Background="Transparent" BorderThickness="0" Content="-" Foreground="#8c61b0" FontSize="35" FontFamily="Consolas" Cursor="Hand" Canvas.Right="100" Canvas.Top="25" Click="btnMinimize_Click" VerticalContentAlignment="Center"/>
+                    <Button x:Name="btnClose" Style="{StaticResource RoundButtonTemplate}" Width="45" Height="45" Background="Transparent" BorderThickness="0" Content="X" Foreground="#8c61b0" FontSize="24" FontFamily="Consolas" Cursor="Hand" Canvas.Right="50" Canvas.Top="25" Click="btnClose_Click"/>
+                </Canvas>
+            </Grid>
+        </Border>
         <!--MainGrid-->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -21,43 +52,20 @@
                 <ColumnDefinition Width="280"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="500"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-
         </Grid>
-
         <!--LeftWing-->
-        <Border Width="165"
-                Height="400" Margin="0,170,1055,170" >
-            <Image Source="/Images/rightWing.png"
-                   Width="165"
-                   Height="400" RenderTransformOrigin="0.5,0.5" >
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-0.133"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-            </Image>
-        </Border>
-
+        <Canvas>
+            <Image Source="/Images/rightWing.png" Width="165" Height="400" Canvas.Left="0" Canvas.Top="170"/>
+        </Canvas>
         <!--RightWing-->
-        <Border Width="165"
-                Height="400" Margin="1055,170,0,170">
-            <Image Source="/Images/leftWing.png"
-                   Width="165"
-                   Height="400"   
-                   RenderTransformOrigin="0.064,0.498"/>
-        </Border>
-
-        <!--TopBar-->
-
+        <Canvas>
+            <Image Source="/Images/leftWing.png" Width="165" Height="400" Canvas.Right="0" Canvas.Top="170"/>
+        </Canvas>
     </Grid>
 </Window>
