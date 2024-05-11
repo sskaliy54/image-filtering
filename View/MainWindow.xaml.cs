@@ -34,5 +34,6 @@ namespace STimg.View
         {
             Application.Current.Shutdown();
         }
+
     }
 }

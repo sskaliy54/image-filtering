@@ -58,7 +58,43 @@
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
+
+            <!--Drag and drop section -->
+
+            <StackPanel VerticalAlignment="Top" Grid.Column="1" Grid.Row="2">
+
+                <Button x:Name="btnUpload" Style="{StaticResource RoundButtonTemplate}" Width="280" Height="42"  BorderThickness="0" Content="U P L O A D   I M A G E" Foreground="#808c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Background="#FFC8ABEB"/>
+
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
+                <Rectangle 
+                    AllowDrop="True"
+                    Fill="#5CE6E6FA"
+                    RadiusX="10"
+                    RadiusY="10"
+                    StrokeDashArray="7,7"
+                    StrokeThickness="1"
+                    StrokeDashCap="Round"
+                    Stroke="#80B88AD8"
+                    Height="400"
+                    Width="500">
+                </Rectangle>
+            </StackPanel>
+
+            <!-- Edit Buttons-->
+            <StackPanel VerticalAlignment="Center" Grid.Column="2" Grid.Row="1">
+                <Button x:Name="btnFilters" Style="{StaticResource LeftButtonStyle}" Background="Transparent" BorderThickness="0" Content="F I L T E R S" Foreground="#8c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Margin="0,50,0,100" HorizontalContentAlignment="Left"/>
+                <Button x:Name="btnImprove" Style="{StaticResource LeftButtonStyle}"  Background="Transparent" BorderThickness="0" Content="I M P R O V E" Foreground="#8c61b0" FontSize="24" FontFamily="Consolas" Cursor="Hand" Margin="0,0,0,100"   HorizontalContentAlignment="Left"/>
+                <Button x:Name="btnAuto" Style="{StaticResource LeftButtonStyle}" Background="Transparent" BorderThickness="0" Content="A U T O M A T I C " Foreground="#8c61b0" FontSize="24" FontFamily="Consolas" Cursor="Hand" Margin="0,0,0,100" HorizontalContentAlignment="Left" />
+            </StackPanel>
+
+
+            <StackPanel VerticalAlignment="Top" Grid.Column="2" Grid.Row="2">
+                <Button x:Name="btnSAVE" Style="{StaticResource RoundButtonTemplate}" Width="180" Height="42" Background="#FFC8ABEB"  BorderThickness="0" Content="S A V E" FontSize="24" FontFamily="Montserrat" Cursor="Hand" BorderBrush="#FF707070" Foreground="#808C61B0"/>
+            </StackPanel>
+
         </Grid>
+
         <!--LeftWing-->
         <Canvas>
             <Image Source="/Images/rightWing.png" Width="165" Height="400" Canvas.Left="0" Canvas.Top="170"/>
@@ -67,5 +103,6 @@
         <Canvas>
             <Image Source="/Images/leftWing.png" Width="165" Height="400" Canvas.Right="0" Canvas.Top="170"/>
         </Canvas>
+
     </Grid>
 </Window>
