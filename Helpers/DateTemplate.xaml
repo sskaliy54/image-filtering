@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:STimg.ViewModel"
+                    xmlns:view="clr-namespace:STimg.View">
+
+
+
+    <DataTemplate DataType="{x:Type vm:EditPageVM}">
+        <view:EditPage />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:HelpPageVM}">
+        <view:HelpPage />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:SamplesPageVM}">
+        <view:SamplesPage />
+    </DataTemplate>
+
+
+</ResourceDictionary>
