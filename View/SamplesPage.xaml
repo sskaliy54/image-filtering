@@ -28,7 +28,7 @@
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Height="500" Margin="50 0 0 0">
             <Image x:Name="BeforeImage" HorizontalAlignment="Left" 
             Source="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/photoshop-face-before.jpg" />
-            <Rectangle HorizontalAlignment="Left" Width="{Binding Value, ElementName=Slider}" Height="350" RadiusX="25" RadiusY="25">
+            <Rectangle HorizontalAlignment="Left" Width="{Binding Value, ElementName=Slider}" Height="350">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/photoshop-face-after.jpg"
                     Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" />

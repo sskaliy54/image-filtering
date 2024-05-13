@@ -24,5 +24,22 @@ namespace STimg.View
         {
             InitializeComponent();
         }
+
+        private void btnInst_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.instagram.com/sskaliy54/");
+        }
+
+        private void btnMail_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://mail.google.com/mail/?view=cm&fs=1&to=tetiana.skalii.ki.2020@lpnu.ua");
+        }
+
+        private void btnGit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/sskaliy54/image-filtering");
+        }
+
+
     }
 }

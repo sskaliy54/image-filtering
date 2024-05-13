@@ -1,12 +1,103 @@
 ﻿<UserControl x:Class="STimg.View.HelpPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:STimg.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+          xmlns:local="clr-namespace:STimg.View"
+         xmlns:vm="clr-namespace:STimg.ViewModel"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+         mc:Ignorable="d" 
+         Height="640" Width="890" 
+         MinWidth="428" Foreground="Transparent" >
+
+    <UserControl.DataContext>
+        <vm:HelpPageVM />
+    </UserControl.DataContext>
+
     <Grid>
-            
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="425"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock  Text=" G U I D E  A N D  F U N C T I O N A L I T Y" Style="{StaticResource SmTextStyle}" Margin="0,25,0,0" Foreground="#FF8C61B0" FontSize="30" FontFamily="Consolas" Width="750" Height="50" VerticalAlignment="Top" RenderTransformOrigin="0.857,0.581" HorizontalAlignment="Center" />
+            <Rectangle Grid.Row="1" Fill="#3FCCB6DA" Margin="25,0,25,10" RadiusX="25" RadiusY="25"/>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Name="ScrollViewer" Visibility="{Binding StackPanelVisibility}">
+                <RichTextBox Style="{StaticResource RTBStyle}"
+                             Height="400" Width="820" >
+                            <FlowDocument>
+                        <Paragraph>
+                            <Span  FontWeight="Bold" FontFamily="Consolas" Foreground="#FF2C173D" FontSize="20" >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
+                        </Paragraph>
+                        <Paragraph>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </Paragraph>
+                        <Paragraph>
+                            <Span FontWeight="Bold" >Lorem ipsum dolor sit amet:</Span>
+                        </Paragraph>
+                        <Paragraph>
+                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
+                            <LineBreak/>
+                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
+                            <LineBreak/>
+                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
+                            <LineBreak/>
+                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
+                            <LineBreak/>
+                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
+                        </Paragraph>
+                        <Paragraph>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            <LineBreak/>
+                            <LineBreak/>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            <LineBreak/>
+                            <LineBreak/>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            <LineBreak/>
+                            <LineBreak/>
+                            <Span FontStyle="Italic">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
+                        </Paragraph>
+                        <Paragraph>
+                            <Span FontWeight="Bold">Lorem ipsum dolor sit amet!</Span>
+                        </Paragraph>
+
+                    </FlowDocument>
+                        </RichTextBox>
+                    </ScrollViewer>
+
+        </Grid>
+
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="500"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="255"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--LinkButton-->
+            <TextBlock Grid.Row="1" Text="C O N T A C T :" Style="{StaticResource SmTextStyle}" Margin="0,34,0,0" Foreground="#BF8C61B0" FontSize="30" FontFamily="Consolas" Width="246" Height="50" VerticalAlignment="Top" RenderTransformOrigin="0.857,0.581" Grid.Column="1"/>
+            <Button x:Name="btnInst" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="2" Grid.Row="1"  Height="60" Width="60" Background="{x:Null}"  Padding="2" BorderBrush="Transparent" Click="btnInst_Click" >
+                <materialDesign:PackIcon Kind="Instagram"  Foreground="#7F8C61B0" Width="50" Height="50"  />
+            </Button>
+            <Button x:Name="btnMail" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="3" Grid.Row="1"  Height="55" Width="55" Background="Transparent"  Padding="4" BorderBrush="Transparent" Click="btnMail_Click" >
+                <materialDesign:PackIcon Kind="EmailMultipleOutline" Foreground="#7F8C61B0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="38" Height="38"/>
+            </Button>
+            <Button x:Name="btnGit" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="4" Grid.Row="1"  Height="55" Width="55" Background="Transparent"  Padding="4" BorderBrush="Transparent" Click="btnGit_Click" >
+                <materialDesign:PackIcon Kind="Github"  Foreground="#7F8C61B0" HorizontalAlignment="Center" VerticalAlignment="Center"  Width="50" Height="50"/>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>

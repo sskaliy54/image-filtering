@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:STimg.View"
              xmlns:vm="clr-namespace:STimg.ViewModel"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-        mc:Ignorable="d" 
-        Height="640" Width="890" 
-        MinWidth="428" Foreground="Transparent" >
+             mc:Ignorable="d" 
+             Height="640" Width="890" 
+             MinWidth="428" Foreground="Transparent" >
     
     <UserControl.DataContext>
         <vm:EditPageVM />
@@ -34,24 +34,16 @@
 
             <StackPanel VerticalAlignment="Top" Grid.Column="0" Grid.Row="1">
 
-                <Button x:Name="btnUpload" Style="{StaticResource RoundButtonTemplate}" Width="280" Height="42"  BorderThickness="0" Content="U P L O A D   I M A G E" Foreground="#808c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Background="#FFDABBFF"/>
+                <Button x:Name="btnUpload" Style="{StaticResource RoundButtonTemplate}" Width="280" Height="42"  BorderThickness="0" Content="U P L O A D   I M A G E" Foreground="#808c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Background="#FFDABBFF" Command="{Binding UploadCommand}" Click="btnUpload_Click"/>
 
             </StackPanel>
             <StackPanel VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">
                 <Grid>
-                    <Rectangle 
-                    AllowDrop="True"
-                    Fill="#5CE6E6FA"
-                    RadiusX="10"
-                    RadiusY="10"
-                    StrokeDashArray="7,7"
-                    StrokeThickness="1"
-                    StrokeDashCap="Round"
-                    Stroke="#80B88AD8"
-                    Height="400"
-                    Width="500"/>
+                    <Rectangle x:Name="ImgZone" AllowDrop="True" Fill="#5CE6E6FA" RadiusX="10" RadiusY="10" StrokeDashArray="7,7" StrokeThickness="1" StrokeDashCap="Round" Stroke="#80B88AD8" Height="400" Width="500"/>
+                    <Image Source="{Binding UploadedImage}" Stretch="Uniform" Height="380" Width="475"/>
+
                     <!-- Text and icon-->
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel x:Name="DZone" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="ImagePlusOutline" Foreground="#3F8C75AC" Width="316" Height="126" Margin="0 0 0 25 "/>
                         <TextBlock  Foreground="#3F8C61B0" FontSize="16" FontFamily="Consolas" Height="62"  LineHeight="36" Cursor="AppStarting" TextAlignment="Center" FontWeight="Bold" Width="320"><Run Text="D R O P  I M A G E"/><LineBreak/><Run Text="T O  U P L O A D"/></TextBlock>
                     </StackPanel>
