@@ -35,6 +35,7 @@ namespace STimg.View
             DZone.Children.Clear();
         }
 
+
         /*   private void btnUpload_Click(object sender, RoutedEventArgs e)
   {
       OpenFileDialog openDialog = new OpenFileDialog();

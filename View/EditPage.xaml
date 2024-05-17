@@ -45,8 +45,7 @@
                     </StackPanel>
                     <!-- Text and icon-->
 
-                   
-                    <StackPanel x:Name="DZone" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <StackPanel x:Name="DZone"  HorizontalAlignment="Center" VerticalAlignment="Center" >
                         <materialDesign:PackIcon Kind="ImagePlusOutline" Foreground="#3F8C75AC" Width="316" Height="126" Margin="0 0 0 25 "/>
                         <TextBlock  Foreground="#3F8C61B0" FontSize="16" FontFamily="Consolas" Height="62"  LineHeight="36" Cursor="AppStarting" TextAlignment="Center" FontWeight="Bold" Width="320"><Run Text="D R O P  I M A G E"/><LineBreak/><Run Text="T O  U P L O A D"/></TextBlock>
                     </StackPanel>
