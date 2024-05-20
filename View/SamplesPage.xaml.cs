@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace STimg.View
 {
-    /// <summary>
-    /// Interaction logic for SamplesPage.xaml
-    /// </summary>
+
     public partial class SamplesPage : UserControl
     {
         public SamplesPage()

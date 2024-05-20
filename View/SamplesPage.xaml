@@ -15,23 +15,23 @@
     </UserControl.DataContext>
 
     <Grid>
-        
+
         <Rectangle Width="400" Fill="#3FCCB6DA" Margin="25,25,465,94" RadiusX="25" RadiusY="25"/>
         <StackPanel Width="400" Height="50" Margin="25,470,465,120">
-            <TextBlock Style="{StaticResource SmTextStyle}" Text=" I M A G E  B E F O R E / A F T E R" Foreground="#8c61b0" FontSize="20" FontFamily="Consolas" Width="395" Height="35"/>
+            <TextBlock Style="{StaticResource SmTextStyle}"  Foreground="#8c61b0" FontSize="20" FontFamily="Consolas" Width="395" Height="66" HorizontalAlignment="Center"><Run Text="I M A G E  B E F O R E / A F T E R"/><LineBreak/><Run Language="en-gb" Text="     "/><Run Text="R E T R O  F I L T E R"/></TextBlock>
         </StackPanel>
         <Rectangle Width="400" Fill="#3FCCB6DA" Margin="465,25,25,94" RadiusX="25" RadiusY="25"/>
         <StackPanel Height="50" Margin="465,470,10,120">
-            <TextBlock Style="{StaticResource SmTextStyle}" Text=" I M A G E  B E F O R E / A F T E R" Foreground="#8c61b0" FontSize="20" FontFamily="Consolas" Width="395" Height="35"/>
+            <TextBlock Style="{StaticResource SmTextStyle}"  Foreground="#8c61b0" FontSize="20" FontFamily="Consolas" Width="395" Height="66" HorizontalAlignment="Center"><Run Text="I M A G E  B E F O R E / A F T E R"/><LineBreak/><Run Text="   B I L A T E R A L  F I L T E R"/></TextBlock>
         </StackPanel>
 
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Height="500" Margin="50 0 0 0">
-            <Image x:Name="BeforeImage" HorizontalAlignment="Left" Height="350" Width="350" Stretch="UniformToFill"
-             Source="/Images/cow.jpg" />
-            <Rectangle HorizontalAlignment="Left" Width="{Binding Value, ElementName=Slider}" Height="350">
-                <Rectangle.Fill>
+            <Image x:Name="BeforeImage" HorizontalAlignment="Left" Height="350" Width="350"
+             Source="/Images/before.jpg" Margin="11,75,0,75" />
+            <Rectangle HorizontalAlignment="Left" Width="{Binding Value, ElementName=Slider}"  Height="350" Margin="11,75,0,75" >
+                <Rectangle.Fill  >
                     <ImageBrush ImageSource="/Images/retro.jpg"
-                    Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" />
+                    Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"  />
                 </Rectangle.Fill>
             </Rectangle>
             <Slider x:Name="Slider" Maximum="{Binding ActualWidth, ElementName=BeforeImage}"
@@ -39,14 +39,14 @@
         </Grid>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="350" Height="500" Margin="0 0 50 0">
             <Image x:Name="BeforeImage1" HorizontalAlignment="Left"
-            Source="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/photoshop-face-before.jpg" />
-            <Rectangle HorizontalAlignment="Left" Width="{Binding Value, ElementName=Slider1}" Height="350">
+             Source="/Images/noise.jpg"  />
+            <Rectangle HorizontalAlignment="Left" Width="{Binding Value, ElementName=Slider1}" Height="350" >
                 <Rectangle.Fill>
-                    <ImageBrush ImageSource="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/photoshop-face-after.jpg"
+                    <ImageBrush ImageSource="/Images/noise_edit.jpg"
                     Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" />
                 </Rectangle.Fill>
             </Rectangle>
-            <Slider x:Name="Slider1" Maximum="{Binding ActualWidth, ElementName=BeforeImage}"
+            <Slider x:Name="Slider1" Maximum="{Binding ActualWidth, ElementName=BeforeImage1}"
             VerticalAlignment="Bottom" Margin="0,0,0,50" Foreground="#3FC3ACED" />
         </Grid>
     </Grid>

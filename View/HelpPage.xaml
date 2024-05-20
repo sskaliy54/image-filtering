@@ -3,7 +3,7 @@
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-          xmlns:local="clr-namespace:STimg.View"
+         xmlns:local="clr-namespace:STimg.View"
          xmlns:vm="clr-namespace:STimg.ViewModel"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
          mc:Ignorable="d" 
@@ -26,48 +26,93 @@
             <TextBlock  Text=" G U I D E  A N D  F U N C T I O N A L I T Y" Style="{StaticResource SmTextStyle}" Margin="0,25,0,0" Foreground="#FF8C61B0" FontSize="30" FontFamily="Consolas" Width="750" Height="50" VerticalAlignment="Top" RenderTransformOrigin="0.857,0.581" HorizontalAlignment="Center" />
             <Rectangle Grid.Row="1" Fill="#3FCCB6DA" Margin="25,0,25,10" RadiusX="25" RadiusY="25"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Name="ScrollViewer" Visibility="{Binding StackPanelVisibility}">
-                <RichTextBox Style="{StaticResource RTBStyle}"
-                             Height="400" Width="820" >
-                            <FlowDocument>
+                <RichTextBox Style="{StaticResource RTBStyle}" Height="400" Width="820">
+                    <FlowDocument>
                         <Paragraph>
-                            <Span  FontWeight="Bold" FontFamily="Consolas" Foreground="#FF2C173D" FontSize="20" >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
-                        </Paragraph>
-                        <Paragraph>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </Paragraph>
-                        <Paragraph>
-                            <Span FontWeight="Bold" >Lorem ipsum dolor sit amet:</Span>
-                        </Paragraph>
-                        <Paragraph>
-                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
-                            <LineBreak/>
-                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
-                            <LineBreak/>
-                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
-                            <LineBreak/>
-                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
-                            <LineBreak/>
-                            <Span>• Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
-                        </Paragraph>
-                        <Paragraph>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            <LineBreak/>
-                            <LineBreak/>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            <LineBreak/>
-                            <LineBreak/>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            <LineBreak/>
-                            <LineBreak/>
-                            <Span FontStyle="Italic">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Span>
-                        </Paragraph>
-                        <Paragraph>
-                            <Span FontWeight="Bold">Lorem ipsum dolor sit amet!</Span>
+                            <InlineUIContainer>
+                                <TextBlock Style="{StaticResource SmTextStyle}" FontFamily="Consolas" Foreground="#FF8C61B0" FontSize="34" Text=" G E T  S T A R T E D !" TextAlignment="Center" Width="825"/>
+                            </InlineUIContainer>
                         </Paragraph>
 
+                        <Paragraph>
+                            <Run Foreground="#BF9370DB">This application offers a user-friendly interface for effortless image editing, giving you the power to unleash your creativity. Packed with cutting-edge computer vision and machine learning features, it puts a comprehensive toolkit at your fingertips to turn your image editing visions into reality.</Run>
+                        </Paragraph>
+
+                        <Paragraph>
+                            <TextBlock Style="{StaticResource SmTextStyle}" FontFamily="Consolas" Foreground="#FF8C61B0" FontSize="20" Text="The available filters include :"  Width="825"/>
+                            <LineBreak/>
+                            <Run  Foreground="#E58C61B0" >○ Image Smoothing:</Run>
+                            <LineBreak/>
+                            <Run>• Box Blur: Creates a softer look by averaging the colors of nearby pixels.</Run>
+                            <LineBreak/>
+                            <Run>• Gaussian Blur: Similar to box blur, but with a smoother transition for a more natural effect.</Run>
+                            <LineBreak/>
+                            <Run  Foreground="#E58C61B0" >○ Color Adjustments:</Run>
+                            <LineBreak/>
+                            <Run>• Gray: Converts a color image to black and white.</Run>
+                            <LineBreak/>
+                            <Run>• Warm: Makes the image appear more yellowish or reddish.</Run>
+                            <LineBreak/>
+                            <Run>• Cold: Makes the image appear more bluish.</Run>
+                            <LineBreak/>
+                            <Run>• Pink: Adds a pink tint to the image.</Run>
+                            <LineBreak/>
+                            <Run  Foreground="#E58C61B0" >○ Other Effects:</Run>
+                            <LineBreak/>
+                            <Run>• Retro: Applies an effect that simulates the look of older photographs.</Run>
+                            <LineBreak/>
+                            <Run>• Edge Detection: Makes the outlines of objects in the image stand out more.</Run>
+                            <LineBreak/>
+                            <Run>• Noise Reduction: Cleans up speckles that may appear in an image.</Run>
+                            <LineBreak/>
+                            <Run>• Brightness Adjustment: Makes the entire image brighter or darker.</Run>
+                            <LineBreak/>
+                            <Run>• Contrast Enhancement: Makes the differences between light and dark areas in the image more pronounced.</Run>
+                        </Paragraph>
+
+                        <Paragraph>
+                            <TextBlock Style="{StaticResource SmTextStyle}" FontFamily="Consolas" Foreground="#FF8C61B0" FontSize="18" Text="Enhance your photo with a single click!"  Width="825"/>
+                            <LineBreak/>
+                            <Run>The "E N H A N C E" button uses advanced technology to automatically improve your photo's overall quality.</Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <TextBlock Style="{StaticResource SmTextStyle}" FontFamily="Consolas" Foreground="#FF8C61B0" FontSize="18" Text="Automatic button simplifies image editing!"  Width="825"/>
+                            <LineBreak/>
+                            <Run>Click the "A U T O M A T I C" button to let the program analyze your image and apply the best filters to enhance it.</Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <TextBlock Style="{StaticResource SmTextStyle}" FontFamily="Consolas" Foreground="#FF8C61B0" FontSize="18" Text="See the difference!"  Width="825"/>
+                            <LineBreak/>
+                            <Run>On the Samples tab, you can explore examples of how this system transforms images.</Run>
+                        </Paragraph>
+
+                        <Paragraph>
+                            <Run FontWeight="Bold" >STimg is your one-stop shop for transforming your photos! Packed with powerful image processing features, STimg makes it easy to enhance, edit, and bring out the best in your pictures.</Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <TextBlock Style="{StaticResource SmTextStyle}" FontFamily="Consolas" Foreground="#FF8C61B0" FontSize="18" Text="Here's what makes STimg stand out:"  Width="825"/>
+                            <LineBreak/>
+                            <Run  Foreground="#E58C61B0" >○ Effortless Image Editing:</Run>
+                            <Run>STimg's user-friendly interface makes editing photos a breeze. No technical knowledge required!</Run>
+                            <LineBreak/>
+                            <Run  Foreground="#E58C61B0" >○ Automatic Enhancements:</Run>
+                            <Run>With a single click, STimg analyzes your photo and applies the perfect filters to make it shine.</Run>
+                            <LineBreak/>
+                            <Run  Foreground="#E58C61B0" >○ Supercharge Resolution:</Run>
+                            <Run>STimg uses cutting-edge technology to upscale your photos, revealing hidden details and improving overall quality.</Run>
+                            <LineBreak/>
+                            <Run  Foreground="#E58C61B0" >○ Explore Creative Filters:</Run>
+                            <Run>Experiment with a variety of artistic filters to add a unique touch to your photos.</Run>
+                            <LineBreak/>
+                            <LineBreak/>
+                            <InlineUIContainer>
+                                <TextBlock Style="{StaticResource SmTextStyle}"  FontFamily="Consolas"  Foreground="#FF8C61B0" FontSize="22" Text="Ready to take your photos to the next level? Try STimg today!" TextAlignment="Center" Width="825"/>
+                            </InlineUIContainer>
+                        </Paragraph>
                     </FlowDocument>
-                        </RichTextBox>
-                    </ScrollViewer>
+                </RichTextBox>
+            </ScrollViewer>
+
 
         </Grid>
 
@@ -89,13 +134,13 @@
 
             <!--LinkButton-->
             <TextBlock Grid.Row="1" Text="C O N T A C T :" Style="{StaticResource SmTextStyle}" Margin="0,34,0,0" Foreground="#BF8C61B0" FontSize="30" FontFamily="Consolas" Width="246" Height="50" VerticalAlignment="Top" RenderTransformOrigin="0.857,0.581" Grid.Column="1"/>
-            <Button x:Name="btnInst" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="2" Grid.Row="1"  Height="60" Width="60" Background="{x:Null}"  Padding="2" BorderBrush="Transparent" Click="btnInst_Click" >
+            <Button x:Name="btnInst" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="2" Grid.Row="1"  Height="60" Width="60" Background="{x:Null}"  Padding="2" BorderBrush="Transparent" Command="{Binding OpenInstagramCommand}" >
                 <materialDesign:PackIcon Kind="Instagram"  Foreground="#7F8C61B0" Width="50" Height="50"  />
             </Button>
-            <Button x:Name="btnMail" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="3" Grid.Row="1"  Height="55" Width="55" Background="Transparent"  Padding="4" BorderBrush="Transparent" Click="btnMail_Click" >
+            <Button x:Name="btnMail" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="3" Grid.Row="1"  Height="55" Width="55" Background="Transparent"  Padding="4" BorderBrush="Transparent" Command="{Binding OpenMailCommand}" >
                 <materialDesign:PackIcon Kind="EmailMultipleOutline" Foreground="#7F8C61B0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="38" Height="38"/>
             </Button>
-            <Button x:Name="btnGit" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="4" Grid.Row="1"  Height="55" Width="55" Background="Transparent"  Padding="4" BorderBrush="Transparent" Click="btnGit_Click" >
+            <Button x:Name="btnGit" Style="{StaticResource MaterialDesignIconButton}" Grid.Column="4" Grid.Row="1"  Height="55" Width="55" Background="Transparent"  Padding="4" BorderBrush="Transparent" Command="{Binding OpenGitHubCommand }" >
                 <materialDesign:PackIcon Kind="Github"  Foreground="#7F8C61B0" HorizontalAlignment="Center" VerticalAlignment="Center"  Width="50" Height="50"/>
             </Button>
         </Grid>

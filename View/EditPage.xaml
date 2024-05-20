@@ -47,7 +47,7 @@
 
                     <StackPanel x:Name="DZone"  HorizontalAlignment="Center" VerticalAlignment="Center" >
                         <materialDesign:PackIcon Kind="ImagePlusOutline" Foreground="#3F8C75AC" Width="316" Height="126" Margin="0 0 0 25 "/>
-                        <TextBlock  Foreground="#3F8C61B0" FontSize="16" FontFamily="Consolas" Height="62"  LineHeight="36" Cursor="AppStarting" TextAlignment="Center" FontWeight="Bold" Width="320"><Run Text="D R O P  I M A G E"/><LineBreak/><Run Text="T O  U P L O A D"/></TextBlock>
+                        <TextBlock  Foreground="#3F8C61B0" FontSize="16" FontFamily="Consolas" Height="62"  LineHeight="36" Cursor="AppStarting" TextAlignment="Center" FontWeight="Bold" Width="320"><Run Text="I M A G E"/><LineBreak/><Run Text="T O  U P L O A D"/></TextBlock>
                     </StackPanel>
                     
 
@@ -79,8 +79,8 @@
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </StackPanel>
-                <Button x:Name="btnImprove" Style="{StaticResource LeftButtonStyle}"  Background="Transparent" BorderThickness="0" Content="I M P R O V E" Foreground="#8c61b0" FontSize="24" FontFamily="Consolas" Cursor="Hand" Margin="0,0,0,100"   HorizontalContentAlignment="Left"/>
-                <Button x:Name="btnAuto" Style="{StaticResource LeftButtonStyle}" Background="Transparent" BorderThickness="0" Content="A U T O M A T I C " Foreground="#8c61b0" FontSize="24" FontFamily="Consolas" Cursor="Hand" Margin="0,0,0,100" HorizontalContentAlignment="Left" />
+                <Button x:Name="btnImprove" Style="{StaticResource LeftButtonStyle}"  Background="Transparent" BorderThickness="0" Content="E N H A N C E" Foreground="#8c61b0" FontSize="24" FontFamily="Consolas" Cursor="Hand" Margin="0,0,0,100"   HorizontalContentAlignment="Left" Command="{Binding ApplyFSRCNNCommand}"/>
+                <Button x:Name="btnAuto" Style="{StaticResource LeftButtonStyle}" Background="Transparent" BorderThickness="0" Content="A U T O M A T I C " Foreground="#8c61b0" FontSize="24" FontFamily="Consolas" Cursor="Hand" Margin="0,0,0,100" HorizontalContentAlignment="Left" Command="{Binding AnalyzeAndSuggestCommand}" />
             </StackPanel>
 
             <!-- Save Buttons-->

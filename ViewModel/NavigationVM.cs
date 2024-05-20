@@ -23,21 +23,18 @@ namespace STimg.ViewModel
         public ICommand HelpCommand { get; set; }
         public ICommand SamplesCommand { get; set; }
 
-
         private void Edit(object obj) => CurrentView = new EditPageVM();
-        private void Help (object obj) => CurrentView = new HelpPageVM();
+        private void Help(object obj) => CurrentView = new HelpPageVM();
         private void Samples(object obj) => CurrentView = new SamplesPageVM();
-
 
         public NavigationVM()
         {
             EditCommand = new RelayCommand(Edit);
             HelpCommand = new RelayCommand(Help);
             SamplesCommand = new RelayCommand(Samples);
-             
-
-            // Startup Page
             CurrentView = new EditPageVM();
         }
+
+
     }
 }

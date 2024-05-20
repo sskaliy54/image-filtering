@@ -14,13 +14,17 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" 
         Background="Transparent" 
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp"
+        MouseMove="Window_MouseMove" 
+        Icon="/Images/logo.ico">
     
     <Window.DataContext>
         <vm:NavigationVM/>
     </Window.DataContext>
     
-    <Grid>
+    <Grid >
         
 
         <!--Background-->
