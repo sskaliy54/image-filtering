@@ -8,7 +8,7 @@ using System.Windows.Input;
 using STimg.Helpers;
 namespace STimg.ViewModel
 {
-     class HelpPageVM : BaseVM
+    public class HelpPageVM : BaseVM
     {
         public ICommand OpenInstagramCommand { get; }
         public ICommand OpenMailCommand { get; }

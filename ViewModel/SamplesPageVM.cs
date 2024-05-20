@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace STimg.ViewModel
 {
-    internal class SamplesPageVM : BaseVM
+    public class SamplesPageVM : BaseVM
     {
     }
 }

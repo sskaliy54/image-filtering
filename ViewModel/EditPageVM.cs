@@ -2,119 +2,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using STimg.Helpers;
 using STimg.View;
 using System.IO;
 using Microsoft.Win32;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Windows.Media;
 using Emgu.CV.CvEnum;
 using Emgu.CV;
 using Emgu.CV.Util;
-using STimg.Models;
 using Emgu.CV.DnnSuperres;
 using Emgu.CV.Structure;
+using BitmapExtension = STimg.Extension.BitmapExtension;
 
 
 
 namespace STimg.ViewModel
 {
-    class EditPageVM : BaseVM
+    public class EditPageVM : BaseVM
     {
-
-        private void ApplyFSRCNN()
-        {
-            if (UploadedImage == null) return;
-
-            Mat imageMat = BitmapExtension.ToMat(UploadedImage);
-
-            double variance = ComputeLaplacianVariance(imageMat);
-            const double blurThreshold = 100.0;
-
-            if (variance < blurThreshold)
-            {
-                Mat denoisedImage = new Mat();
-                CvInvoke.BoxFilter(imageMat, denoisedImage, DepthType.Cv8U, new System.Drawing.Size(3, 3), new System.Drawing.Point(-1, -1), true, BorderType.Default);
-
-                int scaleIncreaseFactor = (int)(variance / blurThreshold) + 1;
-                int enhanceSteps = 3 * scaleIncreaseFactor;
-                Mat kernel = CreateSharpeningKernel();
-                for (int i = 0; i < enhanceSteps; i++)
-                {
-                    CvInvoke.Filter2D(denoisedImage, imageMat, kernel, new System.Drawing.Point(-1, -1));
-                }
-            }
-            CvInvoke.ConvertScaleAbs(imageMat, imageMat, 0.85, 5);
-            CvInvoke.DetailEnhance(imageMat, imageMat, 5f, 0.025f);
-            long imageSizeInBytes = imageMat.Total.ToInt64() * imageMat.ElementSize;
-            string model;
-            switch (imageSizeInBytes <= 3 * 1024 * 1024)
-            {
-                case true:
-                    model = "FSRCNN_x3.pb";
-                    break;
-                default:
-                    model = "FSRCNN-small_x2.pb";
-                    break;
-            }
-            using (var fsrcnn = new DnnSuperResImpl())
-            {
-                fsrcnn.ReadModel($"Resource\\{model}");
-                int scale = model.Contains("x3") ? 3 : 2;
-                fsrcnn.SetModel("fsrcnn", scale);
-                Mat result = new Mat();
-                Mat convertedImage = new Mat();
-                CvInvoke.CvtColor(imageMat, convertedImage, ColorConversion.Bgra2Bgr);
-                fsrcnn.Upsample(convertedImage, result);
-                UploadedImage = MatToBitmapImage(result);
-            }
-        }
-
-        private Mat CreateSharpeningKernel()
-        {
-            float[] kernelValues = { -1, -1, -1, -1, 9, -1, -1, -1, -1 };
-            Mat kernel = new Mat(3, 3, DepthType.Cv32F, 1);
-            kernel.SetTo(kernelValues);
-            return kernel;
-        }
-
-        private double ComputeLaplacianVariance(Mat image)
-        {
-            Mat gray = new Mat();
-            if (image.NumberOfChannels == 3)
-            {
-                CvInvoke.CvtColor(image, gray, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
-            }
-            else
-            {
-                gray = image.Clone();
-            }
-
-            Mat laplacian = new Mat();
-            CvInvoke.Laplacian(gray, laplacian, Emgu.CV.CvEnum.DepthType.Cv64F);
-
-            MCvScalar mean = new MCvScalar();
-            MCvScalar stddev = new MCvScalar();
-            CvInvoke.MeanStdDev(laplacian, ref mean, ref stddev);
-
-            double variance = stddev.V0;
-            return variance * variance;
-        }
         private BitmapImage _uploadedImage;
-        public BitmapImage UploadedImage
-        {
-            get { return _uploadedImage; }
-            set
-            {
-                _uploadedImage = value;
-                OnPropertyChanged(nameof(UploadedImage));
-            }
-        }
+        private RelayCommand _applyFSRCNNCommand;
 
         public RelayCommand UploadCommand { get; private set; }
         public RelayCommand ApplyBoxFilterCommand { get; private set; }
@@ -134,7 +42,6 @@ namespace STimg.ViewModel
         public RelayCommand SaveImageCommand { get; private set; }
         public RelayCommand AnalyzeAndSuggestCommand { get; private set; }
 
-        private RelayCommand _applyFSRCNNCommand;
         public RelayCommand ApplyFSRCNNCommand
         {
             get
@@ -143,6 +50,15 @@ namespace STimg.ViewModel
             }
         }
 
+        public BitmapImage UploadedImage
+        {
+            get { return _uploadedImage; }
+            set
+            {
+                _uploadedImage = value;
+                OnPropertyChanged(nameof(UploadedImage));
+            }
+        }
 
         public EditPageVM()
         {
@@ -165,21 +81,7 @@ namespace STimg.ViewModel
             AnalyzeAndSuggestCommand = new RelayCommand(AnalyzeAndSuggest);
         }
 
-        private void UploadImage(object obj)
-        {
-            OpenFileDialog openDialog = new OpenFileDialog
-            {
-                Filter = "Image files| *.bmp;*jpg;*.png",
-                FilterIndex = 1
-            };
-            if (openDialog.ShowDialog() == true)
-            {
-                string filePath = openDialog.FileName;
-                BitmapImage bitmap = new BitmapImage(new Uri(filePath));
-                UploadedImage = bitmap;
-            }
-        }
-        private BitmapImage MatToBitmapImage(Mat imageMat)
+        public BitmapImage MatToBitmapImage(Mat imageMat)
         {
             using (var stream = new MemoryStream())
             {
@@ -194,40 +96,29 @@ namespace STimg.ViewModel
                 return bitmapImage;
             }
         }
-        private void SaveImage(object obj)
+
+        public enum FilterType
         {
-            if (UploadedImage == null) return;
-
-            SaveFileDialog saveDialog = new SaveFileDialog
-            {
-                Filter = "JPEG Image|*.jpg|Bitmap Image|*.bmp|PNG Image|*.png",
-                Title = "Save an Image File"
-            };
-            if (saveDialog.ShowDialog() == true)
-            {
-                string filePath = saveDialog.FileName;
-                Mat imageMat = BitmapExtension.ToMat(UploadedImage);
-
-                switch (saveDialog.FilterIndex)
-                {
-                    case 1:
-                        CvInvoke.Imwrite(filePath, imageMat, new KeyValuePair<ImwriteFlags, int>(ImwriteFlags.JpegQuality, 100));
-                        break;
-                    case 2:
-                        CvInvoke.Imwrite(filePath, imageMat);
-                        break;
-                    case 3:
-                        CvInvoke.Imwrite(filePath, imageMat, new KeyValuePair<ImwriteFlags, int>(ImwriteFlags.PngCompression, 9));
-                        break;
-                }
-            }
+            Box,
+            GaussianBlur,
+            Gray,
+            Warm,
+            DetailEnhancing,
+            Cold,
+            Retro,
+            Bilateral,
+            Pink,
+            NoiseReduction,
+            ContrastEnhancement,
+            BrightnessAdjustment,
+            WhiteBalance,
+            BlurReduction
         }
-
-        private void ApplyFilter(FilterType filterType, Mat imageMat = null)
+        public void ApplyFilter(FilterType filterType, Mat imageMat = null)
         {
             if (UploadedImage == null) return;
 
-            imageMat = BitmapExtension.ToMat(UploadedImage);
+            imageMat = STimg.Extension.BitmapExtension.ToMat(UploadedImage);
             VectorOfMat channels;
             bool isGrayImage = (imageMat.NumberOfChannels == 1);
 
@@ -357,78 +248,55 @@ namespace STimg.ViewModel
 
             UploadedImage = MatToBitmapImage(imageMat);
         }
-        private void ApplyMultipleFilters(object obj)
+
+        public void ApplyFSRCNN()
         {
             if (UploadedImage == null) return;
 
-            List<FilterType> filters = new List<FilterType> { FilterType.Gray, FilterType.ContrastEnhancement, FilterType.NoiseReduction };
-            Mat imageMat = BitmapExtension.ToMat(UploadedImage);
+            Mat imageMat = STimg.Extension.BitmapExtension.ToMat(UploadedImage);
+            double variance = ComputeLaplacianVariance(imageMat);
+            const double blurThreshold = 100.0;
 
-            foreach (var filter in filters)
+            if (variance < blurThreshold)
             {
-                ApplyFilter(filter, imageMat);
-            }
+                Mat denoisedImage = new Mat();
+                CvInvoke.BoxFilter(imageMat, denoisedImage, DepthType.Cv8U, new System.Drawing.Size(3, 3), new System.Drawing.Point(-1, -1), true, BorderType.Default);
 
-            UploadedImage = MatToBitmapImage(imageMat);
-        }
-        private byte[] BuildLookupTable(double gamma)
-        {
-            byte[] lookupTable = new byte[256];
-            for (int i = 0; i < 256; i++)
-            {
-                lookupTable[i] = (byte)Math.Min(255, (int)(Math.Pow(i / 255.0, gamma) * 255.0));
+                int scaleIncreaseFactor = (int)(variance / blurThreshold) + 1;
+                int enhanceSteps = 3 * scaleIncreaseFactor;
+                Mat kernel = CreateSharpeningKernel();
+                for (int i = 0; i < enhanceSteps; i++)
+                {
+                    CvInvoke.Filter2D(denoisedImage, imageMat, kernel, new System.Drawing.Point(-1, -1));
+                }
             }
-            return lookupTable;
-        }
-        private Mat BuildGammaLut(double gamma)
-        {
-            byte[] lut = new byte[256];
-            for (int i = 0; i < 256; i++)
+            CvInvoke.ConvertScaleAbs(imageMat, imageMat, 0.85, 5);
+            CvInvoke.DetailEnhance(imageMat, imageMat, 5f, 0.025f);
+            long imageSizeInBytes = imageMat.Total.ToInt64() * imageMat.ElementSize;
+            string model;
+            switch (imageSizeInBytes <= 3 * 1024 * 1024)
             {
-                lut[i] = (byte)Math.Min(255, Math.Pow(i / 255.0, 1 / gamma) * 255);
+                case true:
+                    model = "FSRCNN_x3.pb";
+                    break;
+                default:
+                    model = "FSRCNN-small_x2.pb";
+                    break;
             }
-            Mat lutMat = new Mat(1, 256, DepthType.Cv8U, 1);
-            lutMat.SetTo(lut);
-            return lutMat;
-        }
-        private void ApplyLookupTable(Mat channel, byte[] lookupTable)
-        {
-            Mat lookup = new Mat(256, 1, DepthType.Cv8U, 1);
-            System.Runtime.InteropServices.Marshal.Copy(lookupTable, 0, lookup.DataPointer, lookupTable.Length);
-            CvInvoke.LUT(channel, lookup, channel);
-        }
-        private void ApplyGammaCorrection(VectorOfMat channels, double gamma)
-        {
-            Mat lut = BuildGammaLut(gamma);
-            for (int i = 0; i < channels.Size; i++)
+            using (var fsrcnn = new DnnSuperResImpl())
             {
-                CvInvoke.LUT(channels[i], lut, channels[i]);
+                fsrcnn.ReadModel($"Resource\\{model}");
+                int scale = model.Contains("x3") ? 3 : 2;
+                fsrcnn.SetModel("fsrcnn", scale);
+                Mat result = new Mat();
+                Mat convertedImage = new Mat();
+                CvInvoke.CvtColor(imageMat, convertedImage, ColorConversion.Bgra2Bgr);
+                fsrcnn.Upsample(convertedImage, result);
+                UploadedImage = MatToBitmapImage(result);
             }
         }
-        public enum FilterType
-        {
-            Box,
-            GaussianBlur,
-            Gray,
-            Warm,
-            DetailEnhancing,
-            Cold,
-            Retro,
-            Bilateral,
-            Pink,
-            NoiseReduction,
-            ContrastEnhancement,
-            BrightnessAdjustment,
-            WhiteBalance,
-            BlurReduction
-        }
 
-        private const double MaxNoiseLevel = 70;
-        private const double MaxBlurLevel = 100;
-        private const double MinContrast = 50;
-        private const double MaxAvgColorValue = 100;
-
-        private void AnalyzeAndSuggest(object obj)
+        public void AnalyzeAndSuggest(object obj)
         {
             if (UploadedImage == null) return;
 
@@ -441,6 +309,10 @@ namespace STimg.ViewModel
             }
         }
 
+        private const double MaxNoiseLevel = 70;
+        private const double MaxBlurLevel = 100;
+        private const double MinContrast = 50;
+        private const double MaxAvgColorValue = 100;
         private List<FilterType> AnalyzeAndSuggestFilters(Mat imageMat)
         {
             double[] avgColor = GetAverageColor(imageMat);
@@ -493,6 +365,129 @@ namespace STimg.ViewModel
             return suggestedFilters;
         }
 
+        private void UploadImage(object obj)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog
+            {
+                Filter = "Image files| *.bmp;*jpg;*.png",
+                FilterIndex = 1
+            };
+            if (openDialog.ShowDialog() == true)
+            {
+                string filePath = openDialog.FileName;
+                BitmapImage bitmap = new BitmapImage(new Uri(filePath));
+                UploadedImage = bitmap;
+            }
+        }
+
+        private void SaveImage(object obj)
+        {
+            if (UploadedImage == null) return;
+
+            SaveFileDialog saveDialog = new SaveFileDialog
+            {
+                Filter = "JPEG Image|*.jpg|Bitmap Image|*.bmp|PNG Image|*.png",
+                Title = "Save an Image File"
+            };
+            if (saveDialog.ShowDialog() == true)
+            {
+                string filePath = saveDialog.FileName;
+                Mat imageMat = STimg.Extension.BitmapExtension.ToMat(UploadedImage); 
+
+                switch (saveDialog.FilterIndex)
+                {
+                    case 1:
+                        CvInvoke.Imwrite(filePath, imageMat, new KeyValuePair<ImwriteFlags, int>(ImwriteFlags.JpegQuality, 100));
+                        break;
+                    case 2:
+                        CvInvoke.Imwrite(filePath, imageMat);
+                        break;
+                    case 3:
+                        CvInvoke.Imwrite(filePath, imageMat, new KeyValuePair<ImwriteFlags, int>(ImwriteFlags.PngCompression, 9));
+                        break;
+                }
+            }
+        }
+
+        private Mat CreateSharpeningKernel()
+        {
+            float[] kernelValues = { -1, -1, -1, -1, 9, -1, -1, -1, -1 };
+            Mat kernel = new Mat(3, 3, DepthType.Cv32F, 1);
+            kernel.SetTo(kernelValues);
+            return kernel;
+        }
+
+        private double ComputeLaplacianVariance(Mat image)
+        {
+            Mat gray = new Mat();
+            if (image.NumberOfChannels == 3)
+            {
+                CvInvoke.CvtColor(image, gray, Emgu.CV.CvEnum.ColorConversion.Bgr2Gray);
+            }
+            else
+            {
+                gray = image.Clone();
+            }
+
+            Mat laplacian = new Mat();
+            CvInvoke.Laplacian(gray, laplacian, Emgu.CV.CvEnum.DepthType.Cv64F);
+
+            MCvScalar mean = new MCvScalar();
+            MCvScalar stddev = new MCvScalar();
+            CvInvoke.MeanStdDev(laplacian, ref mean, ref stddev);
+
+            double variance = stddev.V0;
+            return variance * variance;
+        }
+
+        private void ApplyMultipleFilters(object obj)
+        {
+            if (UploadedImage == null) return;
+
+            List<FilterType> filters = new List<FilterType> { FilterType.Gray, FilterType.ContrastEnhancement, FilterType.NoiseReduction };
+            Mat imageMat = BitmapExtension.ToMat(UploadedImage);
+
+            foreach (var filter in filters)
+            {
+                ApplyFilter(filter, imageMat);
+            }
+
+            UploadedImage = MatToBitmapImage(imageMat);
+        }
+        private byte[] BuildLookupTable(double gamma)
+        {
+            byte[] lookupTable = new byte[256];
+            for (int i = 0; i < 256; i++)
+            {
+                lookupTable[i] = (byte)Math.Min(255, (int)(Math.Pow(i / 255.0, gamma) * 255.0));
+            }
+            return lookupTable;
+        }
+        private Mat BuildGammaLut(double gamma)
+        {
+            byte[] lut = new byte[256];
+            for (int i = 0; i < 256; i++)
+            {
+                lut[i] = (byte)Math.Min(255, Math.Pow(i / 255.0, 1 / gamma) * 255);
+            }
+            Mat lutMat = new Mat(1, 256, DepthType.Cv8U, 1);
+            lutMat.SetTo(lut);
+            return lutMat;
+        }
+        private void ApplyLookupTable(Mat channel, byte[] lookupTable)
+        {
+            Mat lookup = new Mat(256, 1, DepthType.Cv8U, 1);
+            System.Runtime.InteropServices.Marshal.Copy(lookupTable, 0, lookup.DataPointer, lookupTable.Length);
+            CvInvoke.LUT(channel, lookup, channel);
+        }
+        private void ApplyGammaCorrection(VectorOfMat channels, double gamma)
+        {
+            Mat lut = BuildGammaLut(gamma);
+            for (int i = 0; i < channels.Size; i++)
+            {
+                CvInvoke.LUT(channels[i], lut, channels[i]);
+            }
+        }
 
         private double[] GetAverageColor(Mat img)
         {
@@ -527,7 +522,6 @@ namespace STimg.ViewModel
             MCvScalar avgBrightness = CvInvoke.Mean(gray);
             return avgBrightness.V0;
         }
-
         private double GetContrast(Mat img)
         {
             Mat gray = new Mat();
@@ -631,18 +625,5 @@ namespace STimg.ViewModel
         }
 
     }
-    public static class BitmapExtension
-    {
-        public static Mat ToMat(this BitmapSource source)
-        {
-            int channels = source.Format.BitsPerPixel / 8;
-
-            Mat result = new Mat();
-            result.Create(source.PixelHeight, source.PixelWidth, DepthType.Cv8U, channels);
-
-            source.CopyPixels(Int32Rect.Empty, result.DataPointer, result.Step * result.Rows, result.Step);
-
-            return result;
-        }
-    }
+    
 }

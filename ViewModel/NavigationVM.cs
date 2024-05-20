@@ -10,23 +10,12 @@ using prob.Properties;
 
 namespace STimg.ViewModel
 {
-    class NavigationVM : BaseVM
+   public class NavigationVM : BaseVM
     {
         private object _currentView;
-        public object CurrentView
-        {
-            get { return _currentView; }
-            set { _currentView = value; OnPropertyChanged(); }
-        }
-
         public ICommand EditCommand { get; set; }
         public ICommand HelpCommand { get; set; }
         public ICommand SamplesCommand { get; set; }
-
-        private void Edit(object obj) => CurrentView = new EditPageVM();
-        private void Help(object obj) => CurrentView = new HelpPageVM();
-        private void Samples(object obj) => CurrentView = new SamplesPageVM();
-
         public NavigationVM()
         {
             EditCommand = new RelayCommand(Edit);
@@ -35,6 +24,14 @@ namespace STimg.ViewModel
             CurrentView = new EditPageVM();
         }
 
+        public object CurrentView
+        {
+            get { return _currentView; }
+            set { _currentView = value; OnPropertyChanged(); }
+        }
 
+        private void Edit(object obj) => CurrentView = new EditPageVM();
+        private void Help(object obj) => CurrentView = new HelpPageVM();
+        private void Samples(object obj) => CurrentView = new SamplesPageVM();
     }
 }
