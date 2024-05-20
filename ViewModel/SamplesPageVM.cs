@@ -9,5 +9,12 @@ namespace STimg.ViewModel
 {
     public class SamplesPageVM : BaseVM
     {
+        public SamplesPage SamplesPage
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

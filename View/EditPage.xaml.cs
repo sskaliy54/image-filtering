@@ -25,6 +25,14 @@ namespace STimg.View
             InitializeComponent();
         }
 
+        public EditPageVM EditPageVM
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         private void btnUpload_Click(object sender, RoutedEventArgs e)
         {
             ImgZone.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));

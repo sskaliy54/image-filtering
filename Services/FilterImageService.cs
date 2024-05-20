@@ -51,14 +51,17 @@ namespace STimg.Services
             return lutMat;
         }
 
-        public void ApplyLookupTable(Mat channel, byte[] lookupTable)
+        public void ApplyLookupTable(VectorOfMat channels, (int channel, double factor)[] adjustments)
         {
-            Mat lookup = new Mat(256, 1, DepthType.Cv8U, 1);
-            System.Runtime.InteropServices.Marshal.Copy(lookupTable, 0, lookup.DataPointer, lookupTable.Length);
-            CvInvoke.LUT(channel, lookup, channel);
+            foreach (var (channel, factor) in adjustments)
+            {
+                byte[] lookupTable = BuildLookupTable(factor);
+                Mat lookup = new Mat(256, 1, DepthType.Cv8U, 1);
+                System.Runtime.InteropServices.Marshal.Copy(lookupTable, 0, lookup.DataPointer, lookupTable.Length);
+                CvInvoke.LUT(channels[channel], lookup, channels[channel]);
+            }
         }
-
-        public void ApplyGammaCorrection(VectorOfMat channels, double gamma)
+            public void ApplyGammaCorrection(VectorOfMat channels, double gamma)
         {
             Mat lut = BuildGammaLut(gamma);
             for (int i = 0; i < channels.Size; i++)
@@ -234,5 +237,6 @@ namespace STimg.Services
                    Math.Abs(avgColor[0] - avgColor[2]) > maxDiff ||
                    Math.Abs(avgColor[1] - avgColor[2]) > maxDiff;
         }
+
     }
 }

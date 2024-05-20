@@ -14,6 +14,14 @@ namespace STimg.ViewModel
         public ICommand OpenMailCommand { get; }
         public ICommand OpenGitHubCommand { get; }
 
+        public HelpPage HelpPage
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public HelpPageVM()
         {
             OpenInstagramCommand = new RelayCommand(OpenInstagram);
