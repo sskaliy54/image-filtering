@@ -27,10 +27,10 @@
 
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Height="500" Margin="50 0 0 0">
             <Image x:Name="BeforeImage" HorizontalAlignment="Left" Height="350" Width="350"
-             Source="/Images/before.jpg" Margin="11,75,0,75" />
+             Source="/Resource/Images/before.jpg" Margin="11,75,0,75" />
             <Rectangle HorizontalAlignment="Left" Width="{Binding Value, ElementName=Slider}"  Height="350" Margin="11,75,0,75" >
                 <Rectangle.Fill  >
-                    <ImageBrush ImageSource="/Images/retro.jpg"
+                    <ImageBrush ImageSource="/Resource/Images/retro.jpg"
                     Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"  />
                 </Rectangle.Fill>
             </Rectangle>
@@ -39,10 +39,10 @@
         </Grid>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Width="350" Height="500" Margin="0 0 50 0">
             <Image x:Name="BeforeImage1" HorizontalAlignment="Left"
-             Source="/Images/noise.jpg"  />
+             Source="/Resource/Images/noise.jpg"  />
             <Rectangle HorizontalAlignment="Left" Width="{Binding Value, ElementName=Slider1}" Height="350" >
                 <Rectangle.Fill>
-                    <ImageBrush ImageSource="/Images/noise_edit.jpg"
+                    <ImageBrush ImageSource="/Resource/Images/noise_edit.jpg"
                     Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" />
                 </Rectangle.Fill>
             </Rectangle>

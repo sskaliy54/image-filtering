@@ -16,11 +16,12 @@ using Emgu.CV.Structure;
 using BitmapExtension = STimg.Extension.BitmapExtension;
 using STimg.Enums;
 using STimg.Services;
+using System.Reflection;
 
 
 namespace STimg.ViewModel
 {
-    public class EditPageVM : BaseVM 
+    public class EditPageVM : BaseVM
     {
         private const double MaxNoiseLevel = 70;
         private const double MaxBlurLevel = 100;
@@ -29,6 +30,9 @@ namespace STimg.ViewModel
 
         private BitmapImage _uploadedImage;
         private RelayCommand _applyFSRCNNCommand;
+        private RelayCommand _resetImageCommand;
+        private BitmapImage _originalImage;
+
 
         private FilterImageService filterImageService = new FilterImageService();
         public RelayCommand UploadCommand { get; private set; }
@@ -39,7 +43,7 @@ namespace STimg.ViewModel
         public RelayCommand ApplyDetailEnhancingCommand { get; private set; }
         public RelayCommand ApplyColdCommand { get; private set; }
         public RelayCommand ApplyRetroCommand { get; private set; }
-        public RelayCommand ApplyEdgeDetectionCommand { get; private set; }
+        public RelayCommand ApplyBilateralCommand { get; private set; }
         public RelayCommand ApplyPinkCommand { get; private set; }
         public RelayCommand ApplyNoiseReductionCommand { get; private set; }
         public RelayCommand ApplyContrastEnhancementCommand { get; private set; }
@@ -54,6 +58,14 @@ namespace STimg.ViewModel
             get
             {
                 return _applyFSRCNNCommand ?? (_applyFSRCNNCommand = new RelayCommand((_) => ApplyFSRCNN()));
+            }
+        }
+
+        public RelayCommand ResetImageCommand
+        {
+            get
+            {
+                return _resetImageCommand ?? (_resetImageCommand = new RelayCommand((_) => ResetImage()));
             }
         }
 
@@ -77,7 +89,7 @@ namespace STimg.ViewModel
             ApplyDetailEnhancingCommand = new RelayCommand((_) => ApplyFilter(FilterType.DetailEnhancing));
             ApplyColdCommand = new RelayCommand((_) => ApplyFilter(FilterType.Cold));
             ApplyRetroCommand = new RelayCommand((_) => ApplyFilter(FilterType.Retro));
-            ApplyEdgeDetectionCommand = new RelayCommand((_) => ApplyFilter(FilterType.Bilateral));
+            ApplyBilateralCommand = new RelayCommand((_) => ApplyFilter(FilterType.Bilateral));
             ApplyPinkCommand = new RelayCommand((_) => ApplyFilter(FilterType.Pink));
             ApplyNoiseReductionCommand = new RelayCommand((_) => ApplyFilter(FilterType.NoiseReduction));
             ApplyContrastEnhancementCommand = new RelayCommand((_) => ApplyFilter(FilterType.ContrastEnhancement));
@@ -110,8 +122,7 @@ namespace STimg.ViewModel
                     {
                         channels = new VectorOfMat();
                         CvInvoke.Split(imageMat, channels);
-                        filterImageService.ApplyLookupTable(channels[2], filterImageService.BuildLookupTable(0.95));
-                        filterImageService.ApplyLookupTable(channels[0], filterImageService.BuildLookupTable(1.1));
+                        filterImageService.ApplyLookupTable(channels, new[] { (2, 0.95), (0, 1.1) });
                         CvInvoke.Merge(channels, imageMat);
                     }
                     break;
@@ -126,8 +137,7 @@ namespace STimg.ViewModel
                     {
                         channels = new VectorOfMat();
                         CvInvoke.Split(imageMat, channels);
-                        filterImageService.ApplyLookupTable(channels[2], filterImageService.BuildLookupTable(1.25));
-                        filterImageService.ApplyLookupTable(channels[0], filterImageService.BuildLookupTable(0.95));
+                        filterImageService.ApplyLookupTable(channels, new[] { (2, 1.25), (0, 0.95) });
                         CvInvoke.Merge(channels, imageMat);
                     }
                     break;
@@ -136,9 +146,7 @@ namespace STimg.ViewModel
                     {
                         channels = new VectorOfMat();
                         CvInvoke.Split(imageMat, channels);
-                        filterImageService.ApplyLookupTable(channels[2], filterImageService.BuildLookupTable(0.95));
-                        filterImageService.ApplyLookupTable(channels[1], filterImageService.BuildLookupTable(0.8));
-                        filterImageService.ApplyLookupTable(channels[0], filterImageService.BuildLookupTable(0.95));
+                        filterImageService.ApplyLookupTable(channels, new[] { (2, 0.95), (1, 0.8), (0, 0.95) });
                         filterImageService.ApplyGammaCorrection(channels, 0.65);
                         CvInvoke.Merge(channels, imageMat);
                         CvInvoke.BoxFilter(imageMat, imageMat, DepthType.Cv8U, new System.Drawing.Size(3, 3), new System.Drawing.Point(-1, -1));
@@ -157,9 +165,7 @@ namespace STimg.ViewModel
                     {
                         channels = new VectorOfMat();
                         CvInvoke.Split(imageMat, channels);
-                        filterImageService.ApplyLookupTable(channels[2], filterImageService.BuildLookupTable(1.4));
-                        filterImageService.ApplyLookupTable(channels[1], filterImageService.BuildLookupTable(1.4));
-                        filterImageService.ApplyLookupTable(channels[0], filterImageService.BuildLookupTable(1.2));
+                        filterImageService.ApplyLookupTable(channels, new[] { (2, 1.4), (1, 1.4), (0, 1.2) });
                         filterImageService.ApplyGammaCorrection(channels, 0.95);
                         CvInvoke.Merge(channels, imageMat);
                         CvInvoke.BoxFilter(imageMat, imageMat, DepthType.Cv8U, new System.Drawing.Size(3, 3), new System.Drawing.Point(-1, -1));
@@ -178,12 +184,15 @@ namespace STimg.ViewModel
                     }
                     break;
                 case FilterType.ContrastEnhancement:
-                    CvInvoke.CvtColor(imageMat, imageMat, ColorConversion.Bgr2Lab);
-                    channels = new VectorOfMat();
-                    CvInvoke.Split(imageMat, channels);
-                    CvInvoke.EqualizeHist(channels[0], channels[0]);
-                    CvInvoke.Merge(channels, imageMat);
-                    CvInvoke.CvtColor(imageMat, imageMat, ColorConversion.Lab2Bgr);
+                    if (!isGrayImage)
+                    {
+                        CvInvoke.CvtColor(imageMat, imageMat, ColorConversion.Bgr2Lab);
+                        channels = new VectorOfMat();
+                        CvInvoke.Split(imageMat, channels);
+                        CvInvoke.EqualizeHist(channels[0], channels[0]);
+                        CvInvoke.Merge(channels, imageMat);
+                        CvInvoke.CvtColor(imageMat, imageMat, ColorConversion.Lab2Bgr);
+                    }
                     break;
                 case FilterType.BrightnessAdjustment:
                     channels = new VectorOfMat();
@@ -226,10 +235,11 @@ namespace STimg.ViewModel
         public void ApplyFSRCNN()
         {
             if (UploadedImage == null) return;
-
             Mat imageMat = STimg.Extension.BitmapExtension.ToMat(UploadedImage);
             double variance = filterImageService.ComputeLaplacianVariance(imageMat);
             const double blurThreshold = 100.0;
+            bool isGrayImage = (imageMat.NumberOfChannels == 1);
+
 
             if (variance < blurThreshold)
             {
@@ -245,7 +255,11 @@ namespace STimg.ViewModel
                 }
             }
             CvInvoke.ConvertScaleAbs(imageMat, imageMat, 0.85, 5);
-            CvInvoke.DetailEnhance(imageMat, imageMat, 5f, 0.025f);
+            if (!isGrayImage)
+            {
+                CvInvoke.DetailEnhance(imageMat, imageMat, 5f, 0.025f);
+            }
+
             long imageSizeInBytes = imageMat.Total.ToInt64() * imageMat.ElementSize;
             string model;
             switch (imageSizeInBytes <= 3 * 1024 * 1024)
@@ -333,18 +347,37 @@ namespace STimg.ViewModel
             return suggestedFilters;
         }
 
+        private void ShowCustomMessageBox(string message)
+        {
+            CustomMessageBox customMessageBox = new CustomMessageBox(message);
+            customMessageBox.ShowDialog();
+        }
         private void UploadImage(object obj)
         {
-            OpenFileDialog openDialog = new OpenFileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files|*.jpg;*.jpeg;*.png;*.bmp";
+
+            if (openFileDialog.ShowDialog() == true)
             {
-                Filter = "Image files| *.bmp;*jpg;*.png",
-                FilterIndex = 1
-            };
-            if (openDialog.ShowDialog() == true)
+                FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+
+                if (fileInfo.Length > 5 * 1024 * 1024) 
+                {
+                    ShowCustomMessageBox("The selected file is larger than 5MB. Please select a smaller file.");
+                }
+                else
+                {
+                    UploadedImage = new BitmapImage(new Uri(openFileDialog.FileName));
+                    _originalImage = new BitmapImage(new Uri(openFileDialog.FileName));
+                }
+            }
+        }
+
+        private void ResetImage()
+        {
+            if (_originalImage != null)
             {
-                string filePath = openDialog.FileName;
-                BitmapImage bitmap = new BitmapImage(new Uri(filePath));
-                UploadedImage = bitmap;
+                UploadedImage = _originalImage;
             }
         }
 
@@ -360,7 +393,7 @@ namespace STimg.ViewModel
             if (saveDialog.ShowDialog() == true)
             {
                 string filePath = saveDialog.FileName;
-                Mat imageMat = STimg.Extension.BitmapExtension.ToMat(UploadedImage); 
+                Mat imageMat = STimg.Extension.BitmapExtension.ToMat(UploadedImage);
 
                 switch (saveDialog.FilterIndex)
                 {
@@ -390,5 +423,5 @@ namespace STimg.ViewModel
             UploadedImage = filterImageService.MatToBitmapImage(imageMat);
         }
 
-    } 
+    }
 }

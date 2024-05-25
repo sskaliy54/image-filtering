@@ -18,12 +18,14 @@
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         MouseLeftButtonUp="Window_MouseLeftButtonUp"
         MouseMove="Window_MouseMove" 
-        Icon="/Images/logo.ico">
+        Icon="/Resource/Images/logo.ico">
     
     <Window.DataContext>
         <vm:NavigationVM/>
     </Window.DataContext>
-    
+
+
+
     <Grid >
         
 
@@ -43,7 +45,7 @@
                 </Grid.RowDefinitions>
                 <!--Logo-->
                 <Canvas Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <Image Source="/Images/logo.png" Width="118" Height="98" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="-53"/>
+                    <Image Source="/Resource/Images/logo.png" Width="118" Height="98" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="-53"/>
                 </Canvas>
                 <!-- Buttons-->
                 <Canvas Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -58,11 +60,11 @@
 
                 <!--LeftWing-->
                 <Canvas>
-                    <Image Source="/Images/rightWing.png" Width="165" Height="400" Canvas.Left="0" Canvas.Top="170"/>
+                    <Image Source="/Resource/Images/rightWing.png" Width="165" Height="400" Canvas.Left="0" Canvas.Top="170"/>
                 </Canvas>
                 <!--RightWing-->
                 <Canvas>
-                    <Image Source="/Images/leftWing.png" Width="165" Height="400" Canvas.Right="0" Canvas.Top="170"/>
+                    <Image Source="/Resource/Images/leftWing.png" Width="165" Height="400" Canvas.Right="0" Canvas.Top="170"/>
                 </Canvas>
             </Grid>
         </Border>

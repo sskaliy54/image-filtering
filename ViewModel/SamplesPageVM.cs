@@ -16,5 +16,9 @@ namespace STimg.ViewModel
             {
             }
         }
+        public SamplesPageVM()
+        {
+
+        }
     }
 }

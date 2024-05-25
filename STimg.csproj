@@ -109,10 +109,17 @@
     <Compile Include="ViewModel\HelpPageVM.cs" />
     <Compile Include="ViewModel\NavigationVM.cs" />
     <Compile Include="ViewModel\SamplesPageVM.cs" />
+    <Compile Include="View\CustomMessageBox.xaml.cs">
+      <DependentUpon>CustomMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SamplesPage.xaml.cs">
       <DependentUpon>SamplesPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Helpers\DateTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,7 +172,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -198,31 +204,29 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\rightWing.png" />
+    <Resource Include="Resource\Images\rightWing.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\leftWing.png" />
+    <Resource Include="Resource\Images\leftWing.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\logo.png" />
+    <Resource Include="Resource\Images\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\logo.ico" />
+    <Resource Include="Resource\Images\logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\before.jpg" />
+    <Resource Include="Resource\Images\before.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\noise.jpg" />
+    <Resource Include="Resource\Images\noise.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\noise_edit.jpg" />
+    <Resource Include="Resource\Images\noise_edit.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\retro.jpg" />
+    <Resource Include="Resource\Images\retro.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

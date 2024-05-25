@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              Height="640" Width="890" 
              MinWidth="428" Foreground="Transparent" >
-    
+
     <UserControl.DataContext>
         <vm:EditPageVM />
     </UserControl.DataContext>
@@ -32,24 +32,26 @@
 
             <!--Drag and drop section -->
 
-            <StackPanel VerticalAlignment="Top" Grid.Column="0" Grid.Row="1">
-
-                <Button x:Name="btnUpload" Style="{StaticResource RoundButtonTemplate}" Width="280" Height="42"  BorderThickness="0" Content="U P L O A D   I M A G E" Foreground="#808c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Background="#FFDABBFF" Command="{Binding UploadCommand}" Click="btnUpload_Click"/>
-
+            <StackPanel Grid.Column="0" Grid.Row="1"   VerticalAlignment="Top" HorizontalAlignment="Left"  Width="500"  >
+                <Button x:Name="btnUpload" Style="{StaticResource RoundButtonTemplate}" Width="326" Height="42" BorderThickness="0" Content="U P L O A D   I M A G E" Foreground="#808c61b0" FontSize="24" FontFamily="Montserrat" Cursor="Hand" Background="#FFDABBFF" Command="{Binding UploadCommand}" Click="btnUpload_Click" />
             </StackPanel>
+            <Button   Grid.Column="0" Grid.Row="1" x:Name="btnReset" Style="{StaticResource RoundButtonTemplate}"  Height="42" Width="50" Background="Transparent" Padding="2" BorderBrush="Transparent" Command="{Binding ResetImageCommand}" Margin="438,0,72,58">
+                <materialDesign:PackIcon Kind="ArrowULeftBottom" Height="30" Width="30" Foreground="#FFAE8ECF" />
+            </Button>
             <StackPanel VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">
                 <Grid>
-                    <Rectangle x:Name="ImgZone" Fill="#5CE6E6FA" RadiusX="10" RadiusY="10" StrokeDashArray="7,7" StrokeThickness="1" StrokeDashCap="Round" Stroke="#80B88AD8" Height="400" Width="500"/>
-                    <StackPanel Height="380" Width="475">
-                        <Image x:Name="MyImage" Source="{Binding UploadedImage}"  Stretch="Uniform" Height="380" Width="475"/>
+                    <Rectangle x:Name="ImgZone" Fill="#5CE6E6FA" RadiusX="10" RadiusY="10" StrokeDashArray="7,7" StrokeThickness="1" StrokeDashCap="Round" Stroke="#80B88AD8" Height="400" Width="580"/>
+                    <StackPanel Height="380" Width="545">
+                        <Image x:Name="MyImage" Source="{Binding UploadedImage}"  Stretch="Uniform" Height="380" Width="545"/>
                     </StackPanel>
+
                     <!-- Text and icon-->
 
                     <StackPanel x:Name="DZone"  HorizontalAlignment="Center" VerticalAlignment="Center" >
                         <materialDesign:PackIcon Kind="ImagePlusOutline" Foreground="#3F8C75AC" Width="316" Height="126" Margin="0 0 0 25 "/>
                         <TextBlock  Foreground="#3F8C61B0" FontSize="16" FontFamily="Consolas" Height="62"  LineHeight="36" Cursor="AppStarting" TextAlignment="Center" FontWeight="Bold" Width="320"><Run Text="I M A G E"/><LineBreak/><Run Text="T O  U P L O A D"/></TextBlock>
                     </StackPanel>
-                    
+
 
                 </Grid>
             </StackPanel>
@@ -57,7 +59,7 @@
 
             <!-- Edit Buttons-->
 
-            <StackPanel VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
+            <StackPanel VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Margin="30 0 0 20">
 
                 <!-- PopUp Menu-->
                 <StackPanel  Orientation="Horizontal" Margin="0,50,0,100">
@@ -75,7 +77,7 @@
                             <Button x:Name="btnFilter6" Style="{StaticResource MenuButtonTemplate}" Content="R E T R O" Command="{Binding ApplyRetroCommand}"/>
                             <Button x:Name="btnFilter7" Style="{StaticResource MenuButtonTemplate}" Content="B O X" Command="{Binding ApplyBoxFilterCommand}"/>
                             <Button x:Name="btnFilter8" Style="{StaticResource MenuButtonTemplate}" Content="G A U S S I A N" Command="{Binding ApplyGaussianBlurCommand}"/>
-                            <Button x:Name="btnFilter9" Style="{StaticResource MenuButtonTemplate}" Content="B I L A T E R A L" Command="{Binding ApplyEdgeDetectionCommand}"/>
+                            <Button x:Name="btnFilter9" Style="{StaticResource MenuButtonTemplate}" Content="B I L A T E R A L" Command="{Binding ApplyBilateralCommand}"/>
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </StackPanel>
